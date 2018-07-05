@@ -1,28 +1,138 @@
-.App {
-  text-align: center;
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
+body {
+  font-size: 16px;
+    line-height: 24px;
+    font-family: 'Roboto', sans-serif;
+}
+
+img,
+embed,
+object,
+video {
+    margin: 0;
+    max-width: 100%;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+header {
+  width: 100%;
   height: 80px;
+  background-color: #BDCBCC;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  z-index: 1;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+header h1 {
+  color: #3B3F40;
+  font-size: 24px;
+  transition: margin 0.5s ease;
+  font-weight: 100;
 }
 
-.App-title {
-  font-size: 1.5em;
+#mapContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  transition: margin 0.5s ease;
 }
 
-.App-intro {
-  font-size: large;
+#map {
+  height: calc(100vh - 80px);
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+
+#menu_button {
+  position: absolute;
+  top: 16px;
+  right: -68px;
+  width: 48px;
+  height: 48px;
+  background-image: url('./icons/hamburger.svg');
+  background-color: #304B4C;
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#menu {
+  width: 260px;
+  height: 100%;
+  top: 0;
+  padding: 0 20px 0;
+  position: absolute;
+  background-color: #CCDBDC;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  -webkit-transform: translate(-300px, 0);
+  transform: translate(-300px, 0);
+  transition: transform 0.5s ease;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 80px 50px auto;
+}
+
+#menu.open {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+#menu #menuHeader {
+  height: 80px;
+  display: grid;
+  align-items: center;
+  color: #3B3F40;
+}
+
+#menu input {
+  height: 40px;
+  border: none;
+  background-color: #F0F9FA;
+  padding: 5px 20px;
+  outline: none;
+  font-size: 16px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#menu ul {
+  list-style: none;
+  padding: 0;
+  color: #3B3F40;
+}
+
+#menu li {
+  margin: 15px 0;
+  font-weight: 100;
+}
+
+@media screen and (min-width: 600px) {
+  header h1 {
+    margin-left: 300px;
+    transition: margin 0.5s ease;
+  }
+  #menu_button {
+    display: none;
+  }
+  #menu {
+    -webkit-transform: translate(0, 0);
+      transform: translate(0, 0);
+  }
+  #mapContainer {
+    margin-left: 300px;
+  }
 }
