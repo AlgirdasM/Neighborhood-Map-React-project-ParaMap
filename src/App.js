@@ -98,7 +98,7 @@ class App extends Component {
       this.setState({ markers: [...this.state.markers, marker] });
       
       marker.addListener('click', function() {
-        self.infoWindow(marker, location);
+        self.infoWindow(marker);
       });
 
       this.state.bounds.extend(marker.position);
@@ -109,12 +109,12 @@ class App extends Component {
   }
 
   // Show info window
-  infoWindow = (marker, location) => {
+  infoWindow = (marker) => {
     // if there is old info window open, close it.
     this.closeInfoWindow();
 
     this.state.infoWindow.open(this.state.mapInit, marker);
-    this.state.infoWindow.setContent(`${location.title} - ${location.icao}`);
+    this.state.infoWindow.setContent(`${marker.title}`);
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
 
