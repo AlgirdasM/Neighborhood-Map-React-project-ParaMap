@@ -3,10 +3,13 @@ import './App.css';
 
 class App extends Component {
 
+
   state = {
     mapScriptLoading: true,
     locations: [],
-    markers: []
+    mapInit: {},
+    markers: [],
+    bounds: {}
   }
 
 
@@ -19,6 +22,7 @@ class App extends Component {
     // get location data
     this.setState( {locations: this.getLocations()} )
   }
+
 
   // get location data
   // TODO: get this data from external API
@@ -37,6 +41,7 @@ class App extends Component {
     return locations;
   }
 
+
   // add google maps script to body
   addScript = (src) => {
       return new Promise(function (resolve, reject) {
@@ -53,27 +58,24 @@ class App extends Component {
       });
   }
 
+
   // Init map function
   initMap = () => {
     const { google } = window;
 
-    let mapInit;
-
     const mapview = document.getElementById('map');
 
-    let bounds = new google.maps.LatLngBounds();
+    this.setState({ bounds: new google.maps.LatLngBounds() });
 
-    mapInit = new google.maps.Map(mapview, {
+    this.setState({ mapInit: new google.maps.Map(mapview, {
       center: {lat: 55.322000, lng: 23.897000},
       zoom: 7,
-    });
-
-    
+    })});
 
     // Create a marker per location, and put into markers array.
     this.state.locations.map((location, index) => {
       let marker = new google.maps.Marker({
-        map: mapInit,
+        map: this.state.mapInit,
         position: location.location,
         title: location.title,
         animation: google.maps.Animation.DROP,
@@ -81,12 +83,14 @@ class App extends Component {
       })
       // Push the marker to our state array of markers
       this.setState({ markers: [...this.state.markers, marker] });
-      bounds.extend(this.state.markers[index].position);
+
+      this.state.bounds.extend(marker.position);
     })
 
     // Extend the boundaries of the map for each marker
-    mapInit.fitBounds(bounds);
+    this.state.mapInit.fitBounds(this.state.bounds);
   }
+
 
   // Open and Close menu
   toggleMenu = () => {
@@ -101,6 +105,7 @@ class App extends Component {
       mapContainer.style.marginLeft = '';
     }
   }
+
 
   render() {
     return (
