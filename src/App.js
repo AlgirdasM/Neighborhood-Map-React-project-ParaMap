@@ -80,7 +80,7 @@ class App extends Component {
         id: index
       })
       // Push the marker to our state array of markers
-      this.state.markers.push(marker);
+      this.setState({ markers: [...this.state.markers, marker] });
       bounds.extend(this.state.markers[index].position);
     })
 
