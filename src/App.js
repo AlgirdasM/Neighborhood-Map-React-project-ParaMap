@@ -175,7 +175,7 @@ class App extends Component {
       <div className="App">
 
         <header>
-          <h1 tabIndex="0">Selected location</h1>
+          <h1 tabIndex="0">{this.state.selectedMarker && (this.state.selectedMarker.title)}</h1>
         </header>
 
         <nav id="menu">
