@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import escapeRegExp from 'escape-string-regexp'
 
 class App extends Component {
 
@@ -10,7 +11,8 @@ class App extends Component {
     mapInit: {},
     markers: [],
     bounds: {},
-    infoWindow: {}
+    infoWindow: {},
+    query: ''
   }
 
 
@@ -41,7 +43,6 @@ class App extends Component {
 
     return locations;
   }
-
 
   // add google maps script to body
   addScript = (src) => {
@@ -121,6 +122,22 @@ class App extends Component {
     }
   }
 
+  // update query and filter out locations
+  updateQuery = (query) => {
+    this.setState({ query: query });
+    if (query) {
+      const match = new RegExp(escapeRegExp(query), 'i');
+      this.state.markers.map((marker) => marker.setVisible(false));
+      this.state.markers.filter((marker) => match.test(marker.title)).map((marker => marker.setVisible(true)));
+    } else {
+      this.state.markers.map((marker) => marker.setVisible(true));
+    }
+  }
+
+  // return only visible locations
+  getVisibleLocations = () => {
+    return this.state.markers.filter((marker) => marker.visible);
+  }
 
   render() {
     return (
@@ -138,11 +155,18 @@ class App extends Component {
             <div className="logo"></div>
           </div>
 
-          <input tabIndex="0" aria-label="Filter list" id="filterInput" type="text" name="filter" placeholder="Enter location" />
+          <input tabIndex="0"
+                  aria-label="Filter list"
+                  id="filterInput"
+                  type="text"
+                  name="filter"
+                  placeholder="Enter location"
+                  onChange={(event) => this.updateQuery(event.target.value)}
+                  />
 
           <ul id="filteredList">
-            { this.state.locations &&( this.state.locations.map( location => (
-                <li key={location.title} tabIndex="0">{location.title}</li>
+            { this.state.locations &&(
+              this.getVisibleLocations().map( location => (<li key={location.title} tabIndex="0">{location.title}</li>
               ))
             )}
           </ul>
