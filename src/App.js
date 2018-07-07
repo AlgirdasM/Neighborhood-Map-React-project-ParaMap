@@ -62,20 +62,17 @@ class App extends Component {
 
   // Init map function
   initMap = () => {
+    const self = this;
     const { google } = window;
-
     const mapview = document.getElementById('map');
 
-    const self = this;
-
-    this.setState({ mapInit: new google.maps.Map(mapview, {
-      center: {lat: 55.322000, lng: 23.897000},
-      zoom: 7,
-    })});
-
-    this.setState({ bounds: new google.maps.LatLngBounds() });
-    
-    this.setState({ infoWindow: new google.maps.InfoWindow() });
+    this.setState({
+      mapInit: new google.maps.Map(mapview, {
+        center: {lat: 55.322000, lng: 23.897000},
+        zoom: 7}),
+      bounds: new google.maps.LatLngBounds(),
+      infoWindow: new google.maps.InfoWindow()
+    });
 
     // Create a marker per location, and put into markers array.
     this.state.locations.map((location) => {
