@@ -74,6 +74,11 @@ class App extends Component {
       infoWindow: new google.maps.InfoWindow()
     });
 
+    // if window resized, fit to bounds
+    window.addEventListener('resize', () => {
+      self.state.mapInit.fitBounds(self.state.bounds);
+    });
+
     // Create a marker per location, and put into markers array.
     this.state.locations.map((location) => {
       let marker = new google.maps.Marker({
