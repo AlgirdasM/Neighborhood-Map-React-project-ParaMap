@@ -9,7 +9,8 @@ class App extends Component {
     locations: [],
     mapInit: {},
     markers: [],
-    bounds: {}
+    bounds: {},
+    infoWindow: {}
   }
 
 
@@ -65,24 +66,31 @@ class App extends Component {
 
     const mapview = document.getElementById('map');
 
-    this.setState({ bounds: new google.maps.LatLngBounds() });
+    const self = this;
 
     this.setState({ mapInit: new google.maps.Map(mapview, {
       center: {lat: 55.322000, lng: 23.897000},
       zoom: 7,
     })});
 
+    this.setState({ bounds: new google.maps.LatLngBounds() });
+    
+    this.setState({ infoWindow: new google.maps.InfoWindow() });
+
     // Create a marker per location, and put into markers array.
-    this.state.locations.map((location, index) => {
+    this.state.locations.map((location) => {
       let marker = new google.maps.Marker({
         map: this.state.mapInit,
         position: location.location,
         title: location.title,
         animation: google.maps.Animation.DROP,
-        id: index
       })
       // Push the marker to our state array of markers
       this.setState({ markers: [...this.state.markers, marker] });
+      
+      marker.addListener('click', function() {
+        self.infoWindow(marker, location);
+      });
 
       this.state.bounds.extend(marker.position);
     })
@@ -91,6 +99,11 @@ class App extends Component {
     this.state.mapInit.fitBounds(this.state.bounds);
   }
 
+  // Show info window
+  infoWindow = (marker, location) => {
+    this.state.infoWindow.open(this.state.mapInit, marker);
+    this.state.infoWindow.setContent(`${location.title} - ${location.icao}`);
+  }
 
   // Open and Close menu
   toggleMenu = () => {
