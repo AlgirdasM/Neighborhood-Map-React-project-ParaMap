@@ -86,6 +86,7 @@ class App extends Component {
         map: this.state.mapInit,
         position: location.location,
         title: location.title,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
         animation: google.maps.Animation.DROP,
       })
       // Push the marker to our state array of markers
@@ -106,6 +107,13 @@ class App extends Component {
   infoWindow = (marker, location) => {
     this.state.infoWindow.open(this.state.mapInit, marker);
     this.state.infoWindow.setContent(`${location.title} - ${location.icao}`);
+    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+    marker.setAnimation(window.google.maps.Animation.BOUNCE);
+    // Bounce for one sec
+    setTimeout( function() {
+      marker.setAnimation(null);
+      }, 1000);
+
   }
 
   // Open and Close menu
