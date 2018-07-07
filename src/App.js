@@ -60,8 +60,8 @@ class App extends Component {
     const mapview = document.getElementById('map');
 
     map = new google.maps.Map(mapview, {
-      center: {lat: 54.896779, lng: 23.886382},
-      zoom: 15,
+      center: {lat: 55.322000, lng: 23.897000},
+      zoom: 7,
     });
 
     const kaunasCityMuseum = {lat: 54.896779, lng: 23.886382};
@@ -109,7 +109,7 @@ class App extends Component {
           <button aria-label="menu" id="menu_button" onClick={() => this.toggleMenu()}></button>
 
           <div id="menuHeader">
-            <h2>Logotype</h2>
+            <div className="logo"></div>
           </div>
 
           <input tabIndex="0" aria-label="Filter list" id="filterInput" type="text" name="filter" placeholder="Enter location" />
