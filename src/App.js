@@ -5,7 +5,8 @@ class App extends Component {
 
   state = {
     mapScriptLoading: true,
-    locations: []
+    locations: [],
+    markers: []
   }
 
 
@@ -56,30 +57,35 @@ class App extends Component {
   initMap = () => {
     const { google } = window;
 
-    let map;
+    let mapInit;
+
     const mapview = document.getElementById('map');
 
-    map = new google.maps.Map(mapview, {
+    let bounds = new google.maps.LatLngBounds();
+
+    mapInit = new google.maps.Map(mapview, {
       center: {lat: 55.322000, lng: 23.897000},
       zoom: 7,
     });
 
-    const kaunasCityMuseum = {lat: 54.896779, lng: 23.886382};
-    // eslint-disable-next-line
-    const marker = new google.maps.Marker({
-      position: kaunasCityMuseum,
-      map: map,
-      title: 'Kaunas City Museum'
-    });
+    
 
-    const infowindow = new google.maps.InfoWindow({
-      content: 'Rotuses aikste'
-    });
+    // Create a marker per location, and put into markers array.
+    this.state.locations.map((location, index) => {
+      let marker = new google.maps.Marker({
+        map: mapInit,
+        position: location.location,
+        title: location.title,
+        animation: google.maps.Animation.DROP,
+        id: index
+      })
+      // Push the marker to our state array of markers
+      this.state.markers.push(marker);
+      bounds.extend(this.state.markers[index].position);
+    })
 
-    marker.addListener('click', function(){
-      infowindow.open(map, marker);
-    }); 
-
+    // Extend the boundaries of the map for each marker
+    mapInit.fitBounds(bounds);
   }
 
   // Open and Close menu
