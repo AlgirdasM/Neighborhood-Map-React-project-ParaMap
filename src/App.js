@@ -12,7 +12,8 @@ class App extends Component {
     markers: [],
     bounds: {},
     infoWindow: {},
-    query: ''
+    query: '',
+    selectedMarker: {}
   }
 
 
@@ -75,6 +76,10 @@ class App extends Component {
       infoWindow: new google.maps.InfoWindow()
     });
 
+    google.maps.event.addListener(this.state.infoWindow, 'closeclick', function () {
+      self.closeInfoWindow();
+    });
+
     // if window resized, fit to bounds
     window.addEventListener('resize', () => {
       self.state.mapInit.fitBounds(self.state.bounds);
@@ -105,16 +110,34 @@ class App extends Component {
 
   // Show info window
   infoWindow = (marker, location) => {
+    // if there is old info window open, close it.
+    this.closeInfoWindow();
+
     this.state.infoWindow.open(this.state.mapInit, marker);
     this.state.infoWindow.setContent(`${location.title} - ${location.icao}`);
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
+
     // Bounce for one sec
     setTimeout( function() {
       marker.setAnimation(null);
       }, 1000);
 
+    this.setState({ selectedMarker: marker});
   }
+
+
+  // Close and set red icon
+  closeInfoWindow = () => {
+    if(this.state.selectedMarker){
+      this.state.markers.filter(marker => marker === this.state.selectedMarker)
+                        .map(marker => marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png'));
+      this.setState({ selectedMarker: {} });
+    } else {
+      this.state.infoWindow.close();
+    }
+  }
+
 
   // Open and Close menu
   toggleMenu = () => {
