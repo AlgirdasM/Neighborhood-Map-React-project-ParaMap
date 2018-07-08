@@ -47,7 +47,7 @@ class App extends Component {
 
   // add google maps script to body
   addScript = (src) => {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
           let script;
 
           script = document.createElement('script');
@@ -77,17 +77,13 @@ class App extends Component {
       infoWindow: new google.maps.InfoWindow()
     });
 
-    google.maps.event.addListener(this.state.infoWindow, 'closeclick', function () {
-      self.closeInfoWindow();
-    });
+    google.maps.event.addListener(this.state.infoWindow, 'closeclick', () => self.closeInfoWindow());
 
     // if window resized, fit to bounds
-    window.addEventListener('resize', () => {
-      self.state.mapInit.fitBounds(self.state.bounds);
-    });
+    window.addEventListener('resize', () => self.state.mapInit.fitBounds(self.state.bounds));
 
     // close infowindow with escape if open
-    window.addEventListener('keyup', function (e) {
+    window.addEventListener('keyup', (e) => {
       if (self.state.infoWindow.map && e.keyCode === 27) {
         self.state.infoWindow.close();
         self.closeInfoWindow();
@@ -104,9 +100,7 @@ class App extends Component {
         animation: google.maps.Animation.DROP,
       });
 
-      marker.addListener('click', function() {
-        self.infoWindow(marker);
-      });
+      marker.addListener('click', () => self.infoWindow(marker));
 
       this.state.bounds.extend(marker.position);
 
@@ -131,9 +125,7 @@ class App extends Component {
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
 
     // Bounce for one sec
-    setTimeout( function() {
-      marker.setAnimation(null);
-      }, 1000);
+    setTimeout( () => {marker.setAnimation(null)}, 1000);
 
     this.setState({ selectedMarker: marker});
   }
