@@ -117,6 +117,10 @@ class App extends Component {
 
   // Show info window
   infoWindow = (marker) => {
+    // if trying to select the same marker exit
+    if(marker === this.state.selectedMarker){
+      return
+    }
     // if there is old info window open, close it.
     this.closeInfoWindow();
 
