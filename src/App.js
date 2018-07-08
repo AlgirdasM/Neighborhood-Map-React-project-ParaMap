@@ -96,6 +96,7 @@ class App extends Component {
         map: this.state.mapInit,
         position: location.location,
         title: location.title,
+        icao: location.icao,
         icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
         animation: google.maps.Animation.DROP,
       });
@@ -119,15 +120,44 @@ class App extends Component {
     // if there is old info window open, close it.
     this.closeInfoWindow();
 
+    // open infoWindow
     this.state.infoWindow.open(this.state.mapInit, marker);
     this.state.infoWindow.setContent(`${marker.title}`);
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
 
+    // get content for infoWindow
+    const lat = marker.position.lat();
+    const lng = marker.position.lng();
+    this.getContent(lat, lng, marker);
+
     // Bounce for one sec
     setTimeout( () => {marker.setAnimation(null)}, 1000);
 
     this.setState({ selectedMarker: marker});
+  }
+
+
+  getContent = (lat, lng, marker) => {
+  const api = 'https://api.openweathermap.org/data/2.5';
+  const apiKey = '6f5fb6461397285ca5eff0edbb8efacd';
+
+  const headers = { 'Accept': 'application/json' };
+
+  fetch(`${api}/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${apiKey}`, { headers })
+      .then(response => response.json())
+      .then(data => {
+        this.state.infoWindow.setContent(`
+          ${marker.title} - ${marker.icao}
+          <p>Current weather:</p>
+          <p>Base city: ${data.name}</p>
+          <p>Temperature: ${data.main.temp}</p>
+          <p>Humidity: ${data.main.humidity}</p>
+          <p>Visibility: ${data.visibility}</p>
+          <p>Wind speed: ${data.wind.speed}</p>
+          <p>Wind direction: ${data.wind.deg}</p>
+          `);
+      })
   }
 
 
