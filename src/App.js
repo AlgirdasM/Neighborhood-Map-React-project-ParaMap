@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import './Weather.css';
+import compassArrow from'./icons/compass-arrow.svg';
 import escapeRegExp from 'escape-string-regexp'
 
 class App extends Component {
@@ -152,15 +154,28 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         this.state.infoWindow.setContent(`
-          ${marker.title} - ${marker.icao}
-          <p>Current weather:</p>
-          <p>Base city: ${data.name}</p>
-          <img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png" alt="${data.weather[0].description}" >
-          <p>Temperature: ${data.main.temp}</p>
-          <p>Humidity: ${data.main.humidity}</p>
-          <p>Visibility: ${data.visibility}</p>
-          <p>Wind speed: ${data.wind.speed}</p>
-          <p>Wind direction: ${data.wind.deg}</p>
+            <div class="infoWindowHeader">
+              <h2>${marker.title} - ${marker.icao}</h2>
+            </div>
+            <div class="weather">
+              <h3>Current weather in ${data.name}</h3>
+              <div class="w-details">
+                <div class="row">
+                  <img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png" alt="${data.weather[0].description}" >
+                  <div class="temperature">${data.main.temp} °C</div>
+                </div>
+                <div class="row">
+                  <p>Humidity: ${data.main.humidity}%</p>
+                  <p>Visibility: ${data.visibility}m</p>
+                  <p>Sunrise: 08 01</p>
+                  <p>Sunset: 20 05</p>
+                  <p>Wind speed: ${data.wind.speed}m/s</p>
+                </div>
+                <div class="row compass">
+                  <img src="${compassArrow}" style="transform: rotate(${data.wind.deg}deg)">
+                </div>
+              </div>
+            </div>
           `);
       })
   }
