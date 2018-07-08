@@ -197,7 +197,12 @@ class App extends Component {
 
           <ul id="filteredList">
             { this.state.locations &&(
-              this.getVisibleLocations().map( marker => (<li key={marker.title} tabIndex="0" onClick={() => this.infoWindow(marker)}>{marker.title}</li>
+              this.getVisibleLocations().map( marker => (
+                <li key={marker.title}
+                    className={this.state.selectedMarker.title === marker.title ? 'bold':'regular'}
+                    tabIndex="0"
+                    onClick={() => this.infoWindow(marker)}>{marker.title}
+                </li>
               ))
             )}
           </ul>
