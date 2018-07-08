@@ -86,6 +86,14 @@ class App extends Component {
       self.state.mapInit.fitBounds(self.state.bounds);
     });
 
+    // close infowindow with escape if open
+    window.addEventListener('keyup', function (e) {
+      if (self.state.infoWindow.map && e.keyCode === 27) {
+        self.state.infoWindow.close();
+        self.closeInfoWindow();
+      }
+    });
+
     // Create a marker per location, and put into markers array.
     markers = this.state.locations.map(location => {
       let marker = new google.maps.Marker({
