@@ -197,6 +197,11 @@ class App extends Component {
     } else {
       this.state.markers.map((marker) => marker.setVisible(true));
     }
+    // close infowindow if opened
+    if (this.state.infoWindow.map) {
+        this.state.infoWindow.close();
+        this.closeInfoWindow();
+    }
   }
 
   // return only visible locations
