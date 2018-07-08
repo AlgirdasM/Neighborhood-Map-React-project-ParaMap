@@ -67,6 +67,7 @@ class App extends Component {
     const self = this;
     const { google } = window;
     const mapview = document.getElementById('map');
+    let markers = [];
 
     this.setState({
       mapInit: new google.maps.Map(mapview, {
@@ -86,23 +87,26 @@ class App extends Component {
     });
 
     // Create a marker per location, and put into markers array.
-    this.state.locations.map((location) => {
+    markers = this.state.locations.map(location => {
       let marker = new google.maps.Marker({
         map: this.state.mapInit,
         position: location.location,
         title: location.title,
         icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
         animation: google.maps.Animation.DROP,
-      })
-      // Push the marker to our state array of markers
-      this.setState({ markers: [...this.state.markers, marker] });
-      
+      });
+
       marker.addListener('click', function() {
         self.infoWindow(marker);
       });
 
       this.state.bounds.extend(marker.position);
-    })
+
+      return marker;
+    });
+
+    // Push the markers to our state
+    this.setState({ markers: markers });
 
     // Extend the boundaries of the map for each marker
     this.state.mapInit.fitBounds(this.state.bounds);
