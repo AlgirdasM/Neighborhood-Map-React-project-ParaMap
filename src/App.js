@@ -39,7 +39,7 @@ class App extends Component {
       {"title": "Tauragė Airport", "location": {"lat": 55.231667, "lng": 22.150278}, "icao": "EYTR"},
       {"title": "Šilutė Airport", "location": {"lat": 55.336944, "lng": 21.530556}, "icao": "EYSI"},
       {"title": "Nida Airport", "location": {"lat": 55.327778, "lng": 21.045556}, "icao": "EYSI"},
-      {"title": "Paluknys Airport", "location": {"lat": 54.483056, "lng": 24.989722}, "icao": "EYSI"}
+      {"title": "Paluknys Airport", "location": {"lat": 54.483056, "lng": 24.989722}, "icao": "EYVP"}
     ];
 
     return locations;
@@ -155,6 +155,7 @@ class App extends Component {
           ${marker.title} - ${marker.icao}
           <p>Current weather:</p>
           <p>Base city: ${data.name}</p>
+          <img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png" alt="${data.weather[0].description}" >
           <p>Temperature: ${data.main.temp}</p>
           <p>Humidity: ${data.main.humidity}</p>
           <p>Visibility: ${data.visibility}</p>
