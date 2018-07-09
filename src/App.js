@@ -28,9 +28,27 @@ class App extends Component {
     this.addScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyAmgEg9okyBH-QCEAGu-UF2pIWVamfk7uU&v=3&callback=initMap')
       .catch ( () => this.setState({ mapScriptLoading: false}) );
     // get location data
-    this.setState( {locations: this.getLocations()} )
+    this.setState( {locations: this.getLocations()} );
+
+    this.init();
   }
 
+
+  init = () => {
+    // handle tab, if user uses tab, show focus ring
+    function handleFirstTab(e) {
+        if (e.keyCode === 9) { // the "I am a keyboard user" key
+            document.body.classList.add('user-is-tabbing');
+            window.removeEventListener('keyup', handleFirstTab);
+            console.log('shout');
+        }
+    }
+    window.addEventListener('keydown', handleFirstTab);
+
+    // focus on filter element
+    document.getElementById('filterInput').focus();
+
+  }
 
   // get location data
   // TODO: get this data from external API
@@ -297,7 +315,7 @@ class App extends Component {
 
         <nav id="menu">
 
-          <button tabindex="0" aria-label="menu" id="menu_button" onClick={() => this.toggleMenu()}></button>
+          <button tabIndex="0" aria-label="menu" id="menu_button" onClick={() => this.toggleMenu()}></button>
 
           <div id="menuHeader">
             <div className="logo"></div>

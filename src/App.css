@@ -1,3 +1,7 @@
+body:not(.user-is-tabbing) *:focus {
+  outline: none;
+}
+
 body,
 html {
     margin: 0;
