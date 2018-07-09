@@ -16,7 +16,8 @@ class App extends Component {
     bounds: {},
     infoWindow: {},
     query: '',
-    selectedMarker: {}
+    selectedMarker: {},
+    previousTab: ''
   }
 
 
@@ -88,6 +89,9 @@ class App extends Component {
     // close infowindow with escape if open
     window.addEventListener('keyup', (e) => {
       if (self.state.infoWindow.map && e.keyCode === 27) {
+        // set focus on last selectedMarker
+        self.focusOn(self.state.selectedMarker.title);
+        // close infoWindow
         self.state.infoWindow.close();
         self.closeInfoWindow();
       }
@@ -120,6 +124,7 @@ class App extends Component {
 
   // Show info window
   infoWindow = (marker) => {
+
     // if trying to select the same marker exit
     if(marker === this.state.selectedMarker){
       return
@@ -142,6 +147,7 @@ class App extends Component {
     setTimeout( () => {marker.setAnimation(null)}, 1000);
 
     this.setState({ selectedMarker: marker});
+
   }
 
   getContent = (lat, lng, marker) => {
@@ -155,7 +161,7 @@ class App extends Component {
       .then(data => {
         this.state.infoWindow.setContent(`
             <div class="weather">
-              <h2 tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
+              <h2 id="infoWindowHeader" tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
 
               <div class="w-details">
                 <div class="row">
@@ -181,14 +187,21 @@ class App extends Component {
               </div>
             </div>
           `);
+        this.focusOn('infoWindowHeader');
       }).catch(() => {
         this.state.infoWindow.setContent(`
           <div class="weather">
-            <h2 tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
+            <h2 id="infoWindowHeader" tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
             <p tabIndex="0">Sorry, we can't get weather information right now. Please try again later.</p>
           </div>
           `);
+        this.focusOn('infoWindowHeader');
       })
+  }
+
+  // focus on element with id
+  focusOn = (id) => {
+    document.getElementById(id).focus();
   }
 
 
@@ -252,7 +265,25 @@ class App extends Component {
 
   convertDegToCompass = (deg) => {
     const val = Math.floor((deg / 22.5) + 0.5);
-    const direction = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    const direction = [
+                        "North",
+                        "North-northeast",
+                        "Northeast",
+                        "East-northeast",
+                        "East",
+                        "East-southeast",
+                        "Southeast",
+                        "South-southeast",
+                        "South",
+                        "South-southwest",
+                        "Southwest",
+                        "West-southwest",
+                        "West",
+                        "West-northwest",
+                        "Northwest",
+                        "North-northwest"
+                        ];
+
     return direction[(val % 16)];
   }
 
@@ -266,7 +297,7 @@ class App extends Component {
 
         <nav id="menu">
 
-          <button aria-label="menu" id="menu_button" onClick={() => this.toggleMenu()}></button>
+          <button tabindex="0" aria-label="menu" id="menu_button" onClick={() => this.toggleMenu()}></button>
 
           <div id="menuHeader">
             <div className="logo"></div>
@@ -286,6 +317,7 @@ class App extends Component {
               this.getVisibleLocations().map( marker => (
                 <li role="button"
                     key={marker.title}
+                    id={marker.title}
                     className={this.state.selectedMarker.title === marker.title ? 'bold':'regular'}
                     tabIndex="0"
                     onClick={() => this.infoWindow(marker)}
@@ -303,7 +335,7 @@ class App extends Component {
           { this.state.mapScriptLoading === false && (
             <div className="error">Something went wrong... Please try again...</div>
           )}
-          <div id="map" role="application" aria-hidden="true" aria-label="Google maps application"></div>
+          <div id="map" role="application"  aria-label="Google maps application"></div>
           
         </main>
 
