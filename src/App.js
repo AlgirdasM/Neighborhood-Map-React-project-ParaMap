@@ -144,7 +144,6 @@ class App extends Component {
     this.setState({ selectedMarker: marker});
   }
 
-
   getContent = (lat, lng, marker) => {
   const api = 'https://api.openweathermap.org/data/2.5';
   const apiKey = '6f5fb6461397285ca5eff0edbb8efacd';
@@ -156,35 +155,37 @@ class App extends Component {
       .then(data => {
         this.state.infoWindow.setContent(`
             <div class="weather">
-              <h2>${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
+              <h2 tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
 
               <div class="w-details">
                 <div class="row">
-                  <img src="${data.weather[0].icon ? 'https://openweathermap.org/img/w/' + data.weather[0].icon + '.png' : compassError}"
+                  <img tabIndex="0" src="${data.weather[0].icon ? 'https://openweathermap.org/img/w/' + data.weather[0].icon + '.png' : compassError}"
                     alt="${data.weather[0].description ? data.weather[0].description : 'No weather description'}">
-                  <div class="temperature">${data.main.temp ? data.main.temp + '°C' : 'N/A'}</div>
+                  <div tabIndex="0" class="temperature">${data.main.temp ? data.main.temp + '°C' : 'N/A'}</div>
                 </div>
                 <div class="row compass">
-                  <img class="compassArrow"
+                  <img tabIndex="0" class="compassArrow"
                         src="${data.wind.deg ? compassArrow : compassError}"
-                        style="transform: rotate(${data.wind.deg ? data.wind.deg : '0'}deg)">
+                        style="transform: rotate(${data.wind.deg ? data.wind.deg : '0'}deg)"
+                        alt="${data.wind.deg ? 'Wind blows from ' + this.convertDegToCompass(data.wind.deg) : 'Wind direction is not available'}"
+                        >
                 </div>
               </div>
 
               <div class="row">
-                <p>Wind speed: ${data.wind.speed ? data.wind.speed + 'm/s' : 'N/A'}</p>
-                <p>Humidity: ${data.main.humidity ? data.main.humidity + '%' : 'N/A'}</p>
-                <p>Visibility: ${data.visibility ? data.visibility + 'm' : 'N/A'}</p>
-                <p>Sunrise: ${data.sys.sunrise ? this.convertTime(data.sys.sunrise) : 'N/A'}</p>
-                <p>Sunset: ${data.sys.sunset ? this.convertTime(data.sys.sunset) : 'N/A'}</p>
+                <p tabIndex="0">Wind speed: ${data.wind.speed ? data.wind.speed + 'm/s' : 'N/A'}</p>
+                <p tabIndex="0">Humidity: ${data.main.humidity ? data.main.humidity + '%' : 'N/A'}</p>
+                <p tabIndex="0">Visibility: ${data.visibility ? data.visibility + 'm' : 'N/A'}</p>
+                <p tabIndex="0">Sunrise: ${data.sys.sunrise ? this.convertTime(data.sys.sunrise) : 'N/A'}</p>
+                <p tabIndex="0">Sunset: ${data.sys.sunset ? this.convertTime(data.sys.sunset) : 'N/A'}</p>
               </div>
             </div>
           `);
       }).catch(() => {
         this.state.infoWindow.setContent(`
           <div class="weather">
-            <h2>${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
-            <p>Sorry, we can't get weather information right now. Please try again later.</p>
+            <h2 tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
+            <p tabIndex="0">Sorry, we can't get weather information right now. Please try again later.</p>
           </div>
           `);
       })
@@ -247,6 +248,12 @@ class App extends Component {
 
     // Return time in hh:mm:ss format
     return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+  }
+
+  convertDegToCompass = (deg) => {
+    const val = Math.floor((deg / 22.5) + 0.5);
+    const direction = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return direction[(val % 16)];
   }
 
   render() {
