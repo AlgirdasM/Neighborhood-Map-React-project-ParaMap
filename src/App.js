@@ -100,7 +100,7 @@ class App extends Component {
         position: location.location,
         title: location.title,
         icao: location.icao,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+        icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
         animation: google.maps.Animation.DROP,
       });
 
@@ -130,7 +130,7 @@ class App extends Component {
     // open infoWindow
     this.state.infoWindow.open(this.state.mapInit, marker);
     this.state.infoWindow.setContent(`${marker.title}`);
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+    marker.setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png');
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
 
     // get content for infoWindow
@@ -196,7 +196,7 @@ class App extends Component {
   closeInfoWindow = () => {
     if(this.state.selectedMarker){
       this.state.markers.filter(marker => marker === this.state.selectedMarker)
-                        .map(marker => marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png'));
+                        .map(marker => marker.setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png'));
       this.setState({ selectedMarker: {} });
     } else {
       this.state.infoWindow.close();
