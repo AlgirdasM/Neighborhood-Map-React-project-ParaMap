@@ -114,8 +114,7 @@ header h1 {
   -webkit-transform: translate(-300px, 0);
   transform: translate(-300px, 0);
   transition: transform 0.5s ease;
-  z-index: 1;
-  overflow-y: auto;
+  z-index: 1;  
   display: grid;
   grid-template-rows: 80px 50px auto;
 }
@@ -147,6 +146,7 @@ header h1 {
   list-style: none;
   padding: 0;
   color: #3B3F40;
+  overflow-y: auto;
 }
 
 #menu li {
