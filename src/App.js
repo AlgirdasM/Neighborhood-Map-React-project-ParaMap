@@ -7,7 +7,6 @@ import escapeRegExp from 'escape-string-regexp'
 
 class App extends Component {
 
-
   state = {
     mapScriptLoading: true,
     locations: [],
@@ -17,40 +16,53 @@ class App extends Component {
     infoWindow: {},
     query: '',
     selectedMarker: {},
-    previousTab: ''
+    tabUser: false
   }
 
-
   componentDidMount() {
-    // Enable google to invoke initMap function
-    window.initMap = this.initMap;
-    // Add google maps script to body
-    this.addScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyAmgEg9okyBH-QCEAGu-UF2pIWVamfk7uU&v=3&callback=initMap')
-      .catch ( () => this.setState({ mapScriptLoading: false}) );
-    // get location data
-    this.setState( {locations: this.getLocations()} );
-
     this.init();
   }
 
-
+  // Init application
   init = () => {
-    // handle tab, if user uses tab, show focus ring
-    function handleFirstTab(e) {
-        if (e.keyCode === 9) { // the "I am a keyboard user" key
-            document.body.classList.add('user-is-tabbing');
-            window.removeEventListener('keyup', handleFirstTab);
-            console.log('shout');
-        }
-    }
-    window.addEventListener('keydown', handleFirstTab);
+    // Enable google to invoke initMap function
+    window.initMap = this.initMap;
 
-    // focus on filter element
+    // Add google maps script to body
+    this.addScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyAmgEg9okyBH-QCEAGu-UF2pIWVamfk7uU&v=3&callback=initMap')
+      .catch ( () => this.setState({ mapScriptLoading: false}) );
+
+    // Get location data
+    this.setState( {locations: this.getLocations()} );
+
+    // Add event listener to handle keyboard events
+    window.addEventListener('keydown', this.handleKeyboard);
+
+    // Focus on filter element
     document.getElementById('filterInput').focus();
-
   }
 
-  // get location data
+
+  // Handle keyboard events
+  handleKeyboard = (e) => {
+    // Close infowindow with escape if open
+    if (this.state.infoWindow.map && e.keyCode === 27) {
+      // Set focus on last selectedMarker
+      this.focusOn(this.state.selectedMarker.title);
+      // Close infoWindow
+      this.state.infoWindow.close();
+      this.closeInfoWindow();
+    }
+
+    // Handle tab, if user uses tab, show focus ring
+    if (e.keyCode === 9 && this.state.tabUser === false) {
+        this.setState({ tabUser: true });
+        document.body.classList.add('user-is-tabbing');
+    }
+  }
+
+
+  // Get location data
   // TODO: get this data from external API
   getLocations = () => {
     const locations = [
@@ -67,7 +79,8 @@ class App extends Component {
     return locations;
   }
 
-  // add google maps script to body
+
+  // Add google maps script to body
   addScript = (src) => {
       return new Promise((resolve, reject) => {
           let script;
@@ -88,31 +101,15 @@ class App extends Component {
   initMap = () => {
     const self = this;
     const { google } = window;
-    const mapview = document.getElementById('map');
+    const mapView = document.getElementById('map');
     let markers = [];
 
     this.setState({
-      mapInit: new google.maps.Map(mapview, {
+      mapInit: new google.maps.Map(mapView, {
         center: {lat: 55.322000, lng: 23.897000},
         zoom: 7}),
       bounds: new google.maps.LatLngBounds(),
       infoWindow: new google.maps.InfoWindow()
-    });
-
-    google.maps.event.addListener(this.state.infoWindow, 'closeclick', () => self.closeInfoWindow());
-
-    // if window resized, fit to bounds
-    window.addEventListener('resize', () => self.state.mapInit.fitBounds(self.state.bounds));
-
-    // close infowindow with escape if open
-    window.addEventListener('keyup', (e) => {
-      if (self.state.infoWindow.map && e.keyCode === 27) {
-        // set focus on last selectedMarker
-        self.focusOn(self.state.selectedMarker.title);
-        // close infoWindow
-        self.state.infoWindow.close();
-        self.closeInfoWindow();
-      }
     });
 
     // Create a marker per location, and put into markers array.
@@ -125,8 +122,10 @@ class App extends Component {
         icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
         animation: google.maps.Animation.DROP,
       });
-
+      // open infoWindow if clicked
       marker.addListener('click', () => self.infoWindow(marker));
+      // close window if clicked on close button
+      google.maps.event.addListener(this.state.infoWindow, 'closeclick', () => self.closeInfoWindow());
 
       this.state.bounds.extend(marker.position);
 
@@ -138,15 +137,18 @@ class App extends Component {
 
     // Extend the boundaries of the map for each marker
     this.state.mapInit.fitBounds(this.state.bounds);
+
+    // If window resized, fit to bounds
+    window.addEventListener('resize', () => this.state.mapInit.fitBounds(this.state.bounds));
   }
 
   // Show info window
   infoWindow = (marker) => {
-
     // if trying to select the same marker exit
     if(marker === this.state.selectedMarker){
       return
     }
+
     // if there is old info window open, close it.
     this.closeInfoWindow();
 
@@ -156,7 +158,7 @@ class App extends Component {
     marker.setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png');
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
 
-    // get content for infoWindow
+    // get weather information for infoWindow
     const lat = marker.position.lat();
     const lng = marker.position.lng();
     this.getContent(lat, lng, marker);
@@ -168,6 +170,7 @@ class App extends Component {
 
   }
 
+  // Get weather content from api and set infoWindow content
   getContent = (lat, lng, marker) => {
   const api = 'https://api.openweathermap.org/data/2.5';
   const apiKey = '6f5fb6461397285ca5eff0edbb8efacd';
@@ -217,7 +220,8 @@ class App extends Component {
       })
   }
 
-  // focus on element with id
+
+  // Focus on element with id
   focusOn = (id) => {
     document.getElementById(id).focus();
   }
@@ -249,7 +253,8 @@ class App extends Component {
     }
   }
 
-  // update query and filter out locations
+
+  // Update query and filter out locations
   updateQuery = (query) => {
     this.setState({ query: query });
     if (query) {
@@ -266,44 +271,49 @@ class App extends Component {
     }
   }
 
-  // return only visible locations
+
+  // Return only visible locations
   getVisibleLocations = () => {
     return this.state.markers.filter((marker) => marker.visible);
   }
 
+
+  // Convert unix timestamp to hh:mm:ss format
   convertTime = (unixTime) => {
     const date = new Date(unixTime*1000);
     const hours = date.getHours();
-    const minutes = "0" + date.getMinutes();
-    const seconds = "0" + date.getSeconds();
+    const minutes = '0' + date.getMinutes();
+    const seconds = '0' + date.getSeconds();
 
     // Return time in hh:mm:ss format
     return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
   }
 
+
+  // Convert degrees to compass directions
   convertDegToCompass = (deg) => {
     const val = Math.floor((deg / 22.5) + 0.5);
-    const direction = [
-                        "North",
-                        "North-northeast",
-                        "Northeast",
-                        "East-northeast",
-                        "East",
-                        "East-southeast",
-                        "Southeast",
-                        "South-southeast",
-                        "South",
-                        "South-southwest",
-                        "Southwest",
-                        "West-southwest",
-                        "West",
-                        "West-northwest",
-                        "Northwest",
-                        "North-northwest"
-                        ];
-
+    const direction = [ 'North',
+                        'North-northeast',
+                        'Northeast',
+                        'East-northeast',
+                        'East',
+                        'East-southeast',
+                        'Southeast',
+                        'South-southeast',
+                        'South',
+                        'South-southwest',
+                        'Southwest',
+                        'West-southwest',
+                        'West',
+                        'West-northwest',
+                        'Northwest',
+                        'North-northwest'
+                      ];
+    // Return cardinal direction string
     return direction[(val % 16)];
   }
+
 
   render() {
     return (
@@ -331,7 +341,7 @@ class App extends Component {
                   />
 
           <ul id="filteredList">
-            { this.state.locations &&(
+            { this.state.markers &&(
               this.getVisibleLocations().map( marker => (
                 <li role="button"
                     key={marker.title}

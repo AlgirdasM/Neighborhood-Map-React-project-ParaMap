@@ -4,24 +4,24 @@ body:not(.user-is-tabbing) *:focus {
 
 body,
 html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 body {
   font-size: 16px;
-    line-height: 24px;
-    font-family: 'Roboto', sans-serif;
+  line-height: 24px;
+  font-family: 'Roboto', sans-serif;
 }
 
 img,
 embed,
 object,
 video {
-    margin: 0;
-    max-width: 100%;
+  margin: 0;
+  max-width: 100%;
 }
 
 .app {
@@ -42,17 +42,16 @@ video {
 
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #F0F9FA;
+  background: #F0F9FA;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #BDCBCC; 
+  background: #BDCBCC;
 }
-
 
 .logo {
   width: 100%;
@@ -70,7 +69,7 @@ header {
   display: grid;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   z-index: 1;
 }
 
@@ -103,7 +102,7 @@ header h1 {
   background-color: #304B4C;
   border-radius: 5px;
   border-style: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   transition: all 0.5s ease;
 }
 
@@ -114,11 +113,11 @@ header h1 {
   padding: 0 20px 0;
   position: absolute;
   background-color: #CCDBDC;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -webkit-transform: translate(-300px, 0);
   transform: translate(-300px, 0);
   transition: transform 0.5s ease;
-  z-index: 1;  
+  z-index: 1;
   display: grid;
   grid-template-rows: 80px 50px auto;
 }
@@ -142,7 +141,7 @@ header h1 {
   padding: 5px 20px;
   outline: none;
   font-size: 16px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 #menu ul {
@@ -168,7 +167,7 @@ header h1 {
   }
   #menu {
     -webkit-transform: translate(0, 0);
-      transform: translate(0, 0);
+    transform: translate(0, 0);
   }
   #mapContainer {
     margin-left: 300px;
@@ -177,12 +176,12 @@ header h1 {
 
 @media screen and (max-width: 500px) {
   .logo {
-  width: 70%;
-  height: 100%;
-  background-image: url('./icons/logo.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: all 0.5s ease;
+    width: 70%;
+    height: 100%;
+    background-image: url('./icons/logo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.5s ease;
   }
 
   #menu.open #menu_button {
