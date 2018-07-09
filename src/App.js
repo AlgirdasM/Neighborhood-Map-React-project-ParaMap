@@ -154,26 +154,25 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         this.state.infoWindow.setContent(`
-            <div class="infoWindowHeader">
-              <h2>${marker.title} - ${marker.icao}</h2>
-            </div>
             <div class="weather">
-              <h3>Current weather in ${data.name}</h3>
+              <h2>${marker.title} - ${marker.icao}</h2>
+
               <div class="w-details">
                 <div class="row">
                   <img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png" alt="${data.weather[0].description}" >
                   <div class="temperature">${data.main.temp} °C</div>
                 </div>
-                <div class="row">
-                  <p>Humidity: ${data.main.humidity}%</p>
-                  <p>Visibility: ${data.visibility}m</p>
-                  <p>Sunrise: 08 01</p>
-                  <p>Sunset: 20 05</p>
-                  <p>Wind speed: ${data.wind.speed}m/s</p>
-                </div>
                 <div class="row compass">
-                  <img src="${compassArrow}" style="transform: rotate(${data.wind.deg}deg)">
+                  <img class="compassArrow" src="${compassArrow}" style="transform: rotate(${data.wind.deg}deg)">
                 </div>
+              </div>
+
+              <div class="row">
+                <p>Wind speed: ${data.wind.speed}m/s</p>
+                <p>Humidity: ${data.main.humidity}%</p>
+                <p>Visibility: ${data.visibility}m</p>
+                <p>Sunrise: ${data.sys.sunrise}</p>
+                <p>Sunset: ${data.sys.sunset}</p>
               </div>
             </div>
           `);
