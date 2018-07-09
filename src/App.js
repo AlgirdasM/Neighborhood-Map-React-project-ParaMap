@@ -171,8 +171,8 @@ class App extends Component {
                 <p>Wind speed: ${data.wind.speed}m/s</p>
                 <p>Humidity: ${data.main.humidity}%</p>
                 <p>Visibility: ${data.visibility}m</p>
-                <p>Sunrise: ${data.sys.sunrise}</p>
-                <p>Sunset: ${data.sys.sunset}</p>
+                <p>Sunrise: ${this.convertTime(data.sys.sunrise)}</p>
+                <p>Sunset: ${this.convertTime(data.sys.sunset)}</p>
               </div>
             </div>
           `);
@@ -226,6 +226,16 @@ class App extends Component {
   // return only visible locations
   getVisibleLocations = () => {
     return this.state.markers.filter((marker) => marker.visible);
+  }
+
+  convertTime = (unixTime) => {
+    const date = new Date(unixTime*1000);
+    const hours = date.getHours();
+    const minutes = "0" + date.getMinutes();
+    const seconds = "0" + date.getSeconds();
+
+    // Return time in hh:mm:ss format
+    return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
   }
 
   render() {
