@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './Weather.css';
 import compassArrow from'./icons/compass-arrow.svg';
+import compassError from'./icons/error.svg';
 import escapeRegExp from 'escape-string-regexp'
 
 class App extends Component {
@@ -155,26 +156,36 @@ class App extends Component {
       .then(data => {
         this.state.infoWindow.setContent(`
             <div class="weather">
-              <h2>${marker.title} - ${marker.icao}</h2>
+              <h2>${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
 
               <div class="w-details">
                 <div class="row">
-                  <img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png" alt="${data.weather[0].description}" >
-                  <div class="temperature">${data.main.temp} °C</div>
+                  <img src="${data.weather[0].icon ? 'https://openweathermap.org/img/w/' + data.weather[0].icon + '.png' : compassError}"
+                    alt="${data.weather[0].description ? data.weather[0].description : 'No weather description'}">
+                  <div class="temperature">${data.main.temp ? data.main.temp + '°C' : 'N/A'}</div>
                 </div>
                 <div class="row compass">
-                  <img class="compassArrow" src="${compassArrow}" style="transform: rotate(${data.wind.deg}deg)">
+                  <img class="compassArrow"
+                        src="${data.wind.deg ? compassArrow : compassError}"
+                        style="transform: rotate(${data.wind.deg ? data.wind.deg : '0'}deg)">
                 </div>
               </div>
 
               <div class="row">
-                <p>Wind speed: ${data.wind.speed}m/s</p>
-                <p>Humidity: ${data.main.humidity}%</p>
-                <p>Visibility: ${data.visibility}m</p>
-                <p>Sunrise: ${this.convertTime(data.sys.sunrise)}</p>
-                <p>Sunset: ${this.convertTime(data.sys.sunset)}</p>
+                <p>Wind speed: ${data.wind.speed ? data.wind.speed + 'm/s' : 'N/A'}</p>
+                <p>Humidity: ${data.main.humidity ? data.main.humidity + '%' : 'N/A'}</p>
+                <p>Visibility: ${data.visibility ? data.visibility + 'm' : 'N/A'}</p>
+                <p>Sunrise: ${data.sys.sunrise ? this.convertTime(data.sys.sunrise) : 'N/A'}</p>
+                <p>Sunset: ${data.sys.sunset ? this.convertTime(data.sys.sunset) : 'N/A'}</p>
               </div>
             </div>
+          `);
+      }).catch(() => {
+        this.state.infoWindow.setContent(`
+          <div class="weather">
+            <h2>${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
+            <p>Sorry, we can't get weather information right now. Please try again later.</p>
+          </div>
           `);
       })
   }
