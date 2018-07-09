@@ -261,7 +261,7 @@ class App extends Component {
       <div className="App">
 
         <header>
-          <h1 tabIndex="0">{this.state.selectedMarker.title ? this.state.selectedMarker.title : 'Select location'}</h1>
+          <h1>{this.state.selectedMarker.title ? this.state.selectedMarker.title : 'Select location'}</h1>
         </header>
 
         <nav id="menu">
@@ -284,10 +284,14 @@ class App extends Component {
           <ul id="filteredList">
             { this.state.locations &&(
               this.getVisibleLocations().map( marker => (
-                <li key={marker.title}
+                <li role="button"
+                    key={marker.title}
                     className={this.state.selectedMarker.title === marker.title ? 'bold':'regular'}
                     tabIndex="0"
-                    onClick={() => this.infoWindow(marker)}>{marker.title}
+                    onClick={() => this.infoWindow(marker)}
+                    onKeyPress={() => this.infoWindow(marker)}>
+                    {marker.title}
+                    
                 </li>
               ))
             )}
