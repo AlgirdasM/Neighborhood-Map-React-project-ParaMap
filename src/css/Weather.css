@@ -29,7 +29,7 @@
 
 .compass {
 	height: 80px;
-	background-image: url('./icons/compass.svg');
+	background-image: url('../icons/compass.svg');
 	background-position: center;
 	background-repeat: no-repeat;
 	overflow: hidden;

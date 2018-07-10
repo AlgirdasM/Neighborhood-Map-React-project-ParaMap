@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
-import './Weather.css';
-import compassArrow from'./icons/compass-arrow.svg';
-import compassError from'./icons/error.svg';
+import '../css/App.css';
+import '../css/Weather.css';
+import compassArrow from'../icons/compass-arrow.svg';
+import compassError from'../icons/error.svg';
 import escapeRegExp from 'escape-string-regexp';
 
 class App extends Component {
@@ -94,7 +94,6 @@ class App extends Component {
 
 
   // Get location data
-  // TODO: get this data from external API
   getLocations = () => {
     const locations = [
       {"title": "S. Darius and S. Girėnas Airport", "location": {"lat": 54.880278, "lng": 23.881944}, "icao": "EYKS"},
