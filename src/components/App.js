@@ -193,7 +193,8 @@ class App extends Component {
 
     // open infoWindow
     this.state.infoWindow.open(this.state.mapInit, marker);
-    this.state.infoWindow.setContent(`${marker.title}`);
+    this.state.infoWindow.setContent(`${marker.title}
+                                      <p>Content is loading, please wait...</p>`);
     marker.setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png');
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
 
