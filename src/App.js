@@ -40,6 +40,9 @@ class App extends Component {
 
     // Focus on filter element
     document.getElementById('filterInput').focus();
+
+    // Fix mobile map height
+    this.mapHeightHack();
   }
 
 
@@ -59,6 +62,35 @@ class App extends Component {
         this.setState({ tabUser: true });
         document.body.classList.add('user-is-tabbing');
     }
+  }
+
+
+  // Viewport hack, it will adjust height of the map on mobile devices
+  mapHeightHack = () => {
+    const element = document.getElementById('map');
+
+    let size = function() {
+      return window.innerHeight;
+    };
+
+    const vpHack = function(size, element) {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // map height calculation - get vh and extract header
+        element.style.height = `${size - 80}px`;
+        element.style.transition = '0.5s';
+      }
+    };
+
+    // listen for orientation change
+    window.addEventListener('orientationchange', function() {
+      window.setTimeout(function() {
+        vpHack(size(), element);
+      }, 200);
+
+    });
+
+    vpHack(size(), element);
+
   }
 
 
