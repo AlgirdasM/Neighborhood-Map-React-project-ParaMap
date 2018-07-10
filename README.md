@@ -13,6 +13,15 @@ To install project
 ## Run project
 1. Run `npm start` and it will open browser and serve app.
 
+*Note: service worker will only cache the site when it's in production mode*
+
+## Production build
+1. `npm run build` to build app
+2. `npm install -g serve` to install server
+3. `serve -s build`
+4. Follow instructions in terminal to get address
+5. Open browser with given address
+
 ## Visit project online
 [Click here to visit project online](https://www.paramap.lt)
 
