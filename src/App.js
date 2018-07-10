@@ -205,6 +205,8 @@ class App extends Component {
                 <p tabIndex="0">Visibility: ${data.visibility ? data.visibility + 'm' : 'N/A'}</p>
                 <p tabIndex="0">Sunrise: ${data.sys.sunrise ? this.convertTime(data.sys.sunrise) : 'N/A'}</p>
                 <p tabIndex="0">Sunset: ${data.sys.sunset ? this.convertTime(data.sys.sunset) : 'N/A'}</p>
+                <p tabIndex="0" class="weatherProvider">Weather is provided by <a href="https://openweathermap.org/">OpenWeather</a></p>
+
               </div>
             </div>
           `);
