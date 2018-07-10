@@ -174,6 +174,7 @@ class App extends Component {
     // If window resized, fit to bounds
     window.addEventListener('resize', () => this.state.mapInit.fitBounds(this.state.bounds));
 
+
     // add title to iframe to comply with a11y
     google.maps.event.addDomListenerOnce(window, 'load', () => document.getElementsByTagName('iframe')[0].title = 'Google Maps');
 
@@ -188,6 +189,9 @@ class App extends Component {
 
     // if there is old info window open, close it.
     this.closeInfoWindow();
+
+    // center to map center
+    this.state.mapInit.setCenter(marker.position);
 
     // open infoWindow
     this.state.infoWindow.open(this.state.mapInit, marker);
@@ -272,6 +276,8 @@ class App extends Component {
       this.state.markers.filter(marker => marker === this.state.selectedMarker)
                         .map(marker => marker.setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png'));
       this.setState({ selectedMarker: {} });
+      // fit to bounds after closing
+      this.state.mapInit.fitBounds(this.state.bounds);
     } else {
       this.state.infoWindow.close();
     }
