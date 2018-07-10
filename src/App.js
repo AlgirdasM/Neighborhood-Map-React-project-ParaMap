@@ -3,7 +3,7 @@ import './App.css';
 import './Weather.css';
 import compassArrow from'./icons/compass-arrow.svg';
 import compassError from'./icons/error.svg';
-import escapeRegExp from 'escape-string-regexp'
+import escapeRegExp from 'escape-string-regexp';
 
 class App extends Component {
 
@@ -17,11 +17,11 @@ class App extends Component {
     query: '',
     selectedMarker: {},
     tabUser: false
-  }
+  };
 
   componentDidMount() {
     this.init();
-  }
+  };
 
   // Init application
   init = () => {
@@ -43,7 +43,7 @@ class App extends Component {
 
     // Fix mobile map height
     this.mapHeightHack();
-  }
+  };
 
 
   // Handle keyboard events
@@ -62,7 +62,7 @@ class App extends Component {
         this.setState({ tabUser: true });
         document.body.classList.add('user-is-tabbing');
     }
-  }
+  };
 
 
   // Viewport hack, it will adjust height of the map on mobile devices
@@ -90,8 +90,7 @@ class App extends Component {
     });
 
     vpHack(size(), element);
-
-  }
+  };
 
 
   // Get location data
@@ -109,7 +108,7 @@ class App extends Component {
     ];
 
     return locations;
-  }
+  };
 
 
   // Add google maps script to body
@@ -126,7 +125,7 @@ class App extends Component {
 
           document.body.appendChild(script);
       });
-  }
+  };
 
 
   // Init map function
@@ -177,8 +176,8 @@ class App extends Component {
 
     // add title to iframe to comply with a11y
     google.maps.event.addDomListenerOnce(window, 'load', () => document.getElementsByTagName('iframe')[0].title = 'Google Maps');
-
   }
+
 
   // Show info window
   infoWindow = (marker) => {
@@ -209,7 +208,7 @@ class App extends Component {
 
     this.setState({ selectedMarker: marker});
 
-  }
+  };
 
   // Get weather content from api and set infoWindow content
   getContent = (lat, lng, marker) => {
@@ -260,8 +259,8 @@ class App extends Component {
           </div>
           `);
         this.focusOn('infoWindowHeader');
-      })
-  }
+      });
+  };
 
 
   // Focus on element with id
@@ -281,7 +280,7 @@ class App extends Component {
     } else {
       this.state.infoWindow.close();
     }
-  }
+  };
 
 
   // Open and Close menu
@@ -296,7 +295,7 @@ class App extends Component {
     } else {
       mapContainer.style.marginLeft = '';
     }
-  }
+  };
 
 
   // Update query and filter out locations
@@ -314,13 +313,13 @@ class App extends Component {
         this.state.infoWindow.close();
         this.closeInfoWindow();
     }
-  }
+  };
 
 
   // Return only visible locations
   getVisibleLocations = () => {
     return this.state.markers.filter((marker) => marker.visible);
-  }
+  };
 
 
   // Convert unix timestamp to hh:mm:ss format
@@ -332,7 +331,7 @@ class App extends Component {
 
     // Return time in hh:mm:ss format
     return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-  }
+  };
 
 
   // Convert degrees to compass directions
@@ -357,7 +356,7 @@ class App extends Component {
                       ];
     // Return cardinal direction string
     return direction[(val % 16)];
-  }
+  };
 
 
   render() {
