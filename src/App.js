@@ -172,6 +172,10 @@ class App extends Component {
 
     // If window resized, fit to bounds
     window.addEventListener('resize', () => this.state.mapInit.fitBounds(this.state.bounds));
+
+    // add title to iframe to comply with a11y
+    google.maps.event.addDomListenerOnce(window, 'load', () => document.getElementsByTagName('iframe')[0].title = 'Google Maps');
+
   }
 
   // Show info window
@@ -393,11 +397,11 @@ class App extends Component {
 
         </nav>
 
-        <main id="mapContainer">
+        <main id="mapContainer" role="application" aria-label="Google maps application">
           { this.state.mapScriptLoading === false && (
             <div className="error">Something went wrong... Please try again...</div>
           )}
-          <div id="map" role="application"  aria-label="Google maps application"></div>
+          <div id="map"></div>
           
         </main>
 
