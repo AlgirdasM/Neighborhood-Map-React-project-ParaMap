@@ -139,7 +139,8 @@ class App extends Component {
     this.setState({
       mapInit: new google.maps.Map(mapView, {
         center: {lat: 55.322000, lng: 23.897000},
-        zoom: 7}),
+        zoom: 7,
+        fullscreenControl: false}),
       bounds: new google.maps.LatLngBounds(),
       infoWindow: new google.maps.InfoWindow()
     });
