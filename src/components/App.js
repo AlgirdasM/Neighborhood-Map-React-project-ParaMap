@@ -302,7 +302,7 @@ class App extends Component {
   updateQuery = (query) => {
     this.setState({ query: query });
     if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i');
+      const match = new RegExp(escapeRegExp(query.trim()), 'i');
       this.state.markers.map((marker) => marker.setVisible(false));
       this.state.markers.filter((marker) => match.test(marker.title)).map((marker => marker.setVisible(true)));
     } else {
