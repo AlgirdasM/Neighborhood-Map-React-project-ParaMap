@@ -38,3 +38,4 @@ To install project
 * [Degrees to Cardinal direction](https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words)
 * [Removing that ugly focus ring and keeping it too](https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2)
 * [apigee](https://apigee.com/)
+* [Weather icon designs are originally by Lukas Bischoff](http://www.twitter.com/artill)
