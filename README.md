@@ -3,6 +3,7 @@
 
 This web application is made for paramotor pilots to search/filter PPG friendly airports in Lithuania.
 App uses 3rd party API - [Powered by Dark Sky](https://darksky.net/poweredby/) to get current weather conditions near airport.
+Dark Sky API is served through apigee proxy.
 
 ## Install project
 To install project
@@ -36,3 +37,4 @@ To install project
 * [escape-string-regexp](https://www.npmjs.com/package/@types/escape-string-regexp)
 * [Degrees to Cardinal direction](https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words)
 * [Removing that ugly focus ring and keeping it too](https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2)
+* [apigee](https://apigee.com/)
