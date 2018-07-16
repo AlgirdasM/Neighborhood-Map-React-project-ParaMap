@@ -2,7 +2,7 @@
 ---
 
 This web application is made for paramotor pilots to search/filter PPG friendly airports in Lithuania.
-App uses 3rd party API - [OpenWeather](https://openweathermap.org) to get current weather conditions near airport.
+App uses 3rd party API - [Powered by Dark Sky](https://darksky.net/poweredby/) to get current weather conditions near airport.
 
 ## Install project
 To install project
@@ -30,7 +30,7 @@ To install project
 * [Google for this Scholarship!](https://developers.google.com/training/)
 * [Google Fonts](https://fonts.google.com/)
 * [Google Maps](https://www.google.com/maps)
-* [OpenWeather](https://openweathermap.org)
+* [Powered by Dark Sky](https://darksky.net/poweredby/)
 * [React](https://reactjs.org/)
 * [create-react-app](https://github.com/facebook/create-react-app)
 * [escape-string-regexp](https://www.npmjs.com/package/@types/escape-string-regexp)

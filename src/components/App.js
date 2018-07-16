@@ -212,46 +212,45 @@ class App extends Component {
 
   // Get weather content from api and set infoWindow content
   getContent = (lat, lng, marker) => {
-  const api = 'https://api.openweathermap.org/data/2.5';
-  const apiKey = '6f5fb6461397285ca5eff0edbb8efacd';
+  const api = 'https://algirdaslt-eval-prod.apigee.net/darkskyapi';
 
-  const headers = { 'Accept': 'application/json' };
-
-  fetch(`${api}/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${apiKey}`, { headers })
+  fetch(`${api}/${lat},${lng}?units=si`)
       .then(response => response.json())
       .then(data => {
+
         this.state.infoWindow.setContent(`
             <div class="weather">
               <h2 id="infoWindowHeader" tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>
 
               <div class="w-details">
                 <div class="row">
-                  <img tabIndex="0" src="${data.weather[0].icon ? 'https://openweathermap.org/img/w/' + data.weather[0].icon + '.png' : compassError}"
-                    alt="${data.weather[0].description ? data.weather[0].description : 'No weather description'}">
-                  <div tabIndex="0" class="temperature">${data.main.temp ? data.main.temp + '°C' : 'N/A'}</div>
+                  <img tabIndex="0" src="${data.currently.icon ? '/wicons/' + data.currently.icon + '.svg' : compassError}"
+                    alt="${data.currently.summary ? data.currently.summary : 'No weather description'}">
+                  <div tabIndex="0" class="temperature">${data.currently.temperature ? Math.round(data.currently.temperature) + '°C' : 'N/A'}</div>
                 </div>
                 <div class="row compass">
                   <img tabIndex="0" class="compassArrow"
-                        src="${data.wind.deg ? compassArrow : compassError}"
-                        style="transform: rotate(${data.wind.deg ? data.wind.deg : '0'}deg)"
-                        alt="${data.wind.deg ? 'Wind blows from ' + this.convertDegToCompass(data.wind.deg) : 'Wind direction is not available'}"
+                        src="${data.currently.windBearing ? compassArrow : compassError}"
+                        style="transform: rotate(${data.currently.windBearing ? data.currently.windBearing : '0'}deg)"
+                        alt="${data.currently.windBearing ? 'Wind blows from ' + this.convertDegToCompass(data.currently.windBearing) : 'Wind direction is not available'}"
                         >
                 </div>
               </div>
 
               <div class="row">
-                <p tabIndex="0">Wind speed: ${data.wind.speed ? data.wind.speed + 'm/s' : 'N/A'}</p>
-                <p tabIndex="0">Humidity: ${data.main.humidity ? data.main.humidity + '%' : 'N/A'}</p>
-                <p tabIndex="0">Visibility: ${data.visibility ? data.visibility + 'm' : 'N/A'}</p>
-                <p tabIndex="0">Sunrise: ${data.sys.sunrise ? this.convertTime(data.sys.sunrise) : 'N/A'}</p>
-                <p tabIndex="0">Sunset: ${data.sys.sunset ? this.convertTime(data.sys.sunset) : 'N/A'}</p>
-                <p tabIndex="0" class="weatherProvider">Weather is provided by <a href="https://openweathermap.org/">OpenWeather</a></p>
+                <p tabIndex="0">Wind speed: ${data.currently.windSpeed ? data.currently.windSpeed + 'm/s' : 'N/A'}</p>
+                <p tabIndex="0">Humidity: ${data.currently.humidity ? data.currently.humidity + '%' : 'N/A'}</p>
+                <p tabIndex="0">Visibility: ${data.currently.visibility ? data.currently.visibility + 'm' : 'N/A'}</p>
+                <p tabIndex="0">Sunrise: ${data.daily.data[0].sunriseTime ? this.convertTime(data.daily.data[0].sunriseTime) : 'N/A'}</p>
+                <p tabIndex="0">Sunset: ${data.daily.data[0].sunsetTime ? this.convertTime(data.daily.data[0].sunsetTime) : 'N/A'}</p>
+                <p tabIndex="0" class="weatherProvider"><a href="https://darksky.net/poweredby/">Powered by Dark Sky</a></p>
 
               </div>
             </div>
           `);
         this.focusOn('infoWindowHeader');
-      }).catch(() => {
+      }).catch((e) => {
+        console.log(e);
         this.state.infoWindow.setContent(`
           <div class="weather">
             <h2 id="infoWindowHeader" tabIndex="0">${marker.title} ${marker.icao ? '- ' + marker.icao : ''}</h2>

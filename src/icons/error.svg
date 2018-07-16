@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 x="0px" y="0px" viewBox="0 0 200 200" xml:space="preserve">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
 <g>
-	<path fill="#400A1C" d="M85,118.3H75L60.3,92.4v25.9h-10V76.6h10L75,102.5V76.6h10V118.3z"/>
-	<path fill="#400A1C" d="M94.2,121.8h-6.8l14.2-45.2h6.9L94.2,121.8z"/>
-	<path fill="#400A1C" d="M135.6,110.5h-13.8l-2.4,7.8h-10.7L124,76.6h9.4l15.4,41.6H138L135.6,110.5z M124.2,102.7h8.9l-4.5-14.4
-		L124.2,102.7z"/>
+	<path d="M85,118.3H75L60.3,92.4v25.9h-10V76.6h10L75,102.5V76.6h10V118.3z"/>
+	<path d="M94.2,121.8h-6.8l14.2-45.2h6.9L94.2,121.8z"/>
+	<path d="M135.6,110.5h-13.8l-2.4,7.8h-10.7L124,76.6h9.4l15.4,41.6H138L135.6,110.5z M124.2,102.7h8.9l-4.5-14.4L124.2,102.7z"/>
 </g>
 </svg>
